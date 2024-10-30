@@ -1,0 +1,6 @@
+  - name: Crea vlan 99 per il traffico della lan gia' esistente nel laboratorio 522
+    cisco.ios.ios_vlans:
+      config:
+        - name: "LAN_LAB_522"
+          vlan_id: 99
+          state: "active"
