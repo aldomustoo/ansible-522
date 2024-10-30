@@ -4,3 +4,6 @@
         - name: "LAN_LAB_522"
           vlan_id: 99
           state: "active"
+  - name: Salvo la configurazione
+    ansible.netcommon.cli_command:
+      command: write
