@@ -2,7 +2,7 @@
   hosts: switchRack
   gather_facts: no
   tasks:
-    - name: Configura VLAN 1 (default)
+    - name: Configura VLAN 2 (prova)
       cisco.ios.ios_vlans:
         config:
           - vlan_id: 2
