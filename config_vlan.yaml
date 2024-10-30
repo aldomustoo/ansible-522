@@ -1,0 +1,25 @@
+- name: Configurazione VLAN e interfaccia trunk su un dispositivo Cisco
+  hosts: switchRack
+  gather_facts: no
+  tasks:
+    - name: Configura VLAN 1 (default)
+      cisco.ios.ios_vlans:
+        config:
+          - vlan_id: 2
+            name: "prova"
+            state: "active"
+
+    # - name: Configura VLAN 99
+    #   ios_config:
+    #     lines:
+    #       - vlan 99
+    #       - name VLAN_LAB_522
+
+    # - name: Configura l'interfaccia Gi0/23 per la VLAN 1 come untagged e la VLAN 99 come tagged
+    #   ios_config:
+    #     lines:
+    #       - interface GigabitEthernet0/23
+    #       - no switchport access vlan
+    #       - switchport mode trunk
+    #       - switchport trunk native vlan 1
+    #       - switchport trunk allowed vlan 1,99
