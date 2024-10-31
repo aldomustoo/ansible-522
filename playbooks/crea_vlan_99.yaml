@@ -1,7 +1,7 @@
-- name: Creazione vlan 99 per il traffico della LAN del laboratorio 522
+- name: Configuro lo switch del rack
   hosts: switchRack
   gather_facts: no
   roles:
-    - name: Creo la vlan 99
+    - name: Configuro lo switch
       role: configura_switch_rack
       become: true
