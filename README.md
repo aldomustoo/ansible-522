@@ -5,7 +5,7 @@
 
 Per collegarsi in ssh agli apparati e' necessario utilizzare il seguente comando:
 
-```console
+```bash
 ssh -oKexAlgorithms=+diffie-hellman-group1-sha1 -oHostkeyAlgorithms=+ssh-rsa -oCiphers=+aes256-cbc root@172.16.0.xx
 ```
 
