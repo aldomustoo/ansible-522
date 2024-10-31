@@ -11,13 +11,13 @@ ssh -oKexAlgorithms=+diffie-hellman-group1-sha1 -oHostkeyAlgorithms=+ssh-rsa -oC
 
 E' necessario innanzitutto clonare la repository con il comando:
 
-```console
+```bash
 git clone http://172.16.0.5:3000/root/ansible-522.git
 ```
 
 Successivamente creare il proprio venv e installare i requirements.txt (pip e' richiesto)
 
-```console
+```bash
 python -m venv ./venv
 
 source .venv/bin/activate
@@ -27,7 +27,7 @@ pip install -r requirements.txt
 
 Per eseguire uno script (in questo caso crea_vlan_99.yaml) utilizzare i seguenti comandi:
 
-```console
+```bash
 touch password
 
 echo PasswordSegretissimaDiEsempioCambiami > password
