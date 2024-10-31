@@ -4,24 +4,41 @@
 
 
 Per collegarsi in ssh agli apparati e' necessario utilizzare il seguente comando:
-`ssh -oKexAlgorithms=+diffie-hellman-group1-sha1 -oHostkeyAlgorithms=+ssh-rsa -oCiphers=+aes256-cbc root@172.16.0.xx`
+
+```console
+ssh -oKexAlgorithms=+diffie-hellman-group1-sha1 -oHostkeyAlgorithms=+ssh-rsa -oCiphers=+aes256-cbc root@172.16.0.xx
+```
 
 E' necessario innanzitutto clonare la repository con il comando:
-`git clone http://172.16.0.5:3000/root/ansible-522.git`
+
+```console
+git clone http://172.16.0.5:3000/root/ansible-522.git
+```
 
 Successivamente creare il proprio venv e installare i requirements.txt (pip e' richiesto)
 
-`python -m venv ./venv`
+```console
+python -m venv ./venv
+```
 
-`source .venv/bin/activate`
+```console
+source .venv/bin/activate
+```
 
-`pip install -r requirements.txt`
+```console
+pip install -r requirements.txt
+```
 
 Per eseguire uno script (in questo caso crea_vlan_99.yaml) utilizzare i seguenti comandi:
 
-`touch password`
+```console
+touch password
+```
 
-`echo PasswordSegretissimaDiEsempioCambiami > password`
+```console
+echo PasswordSegretissimaDiEsempioCambiami > password
+```
 
-`ansible-playbook --extra-vars @secrets.enc -i inventory.ini playbooks/crea_vlan_99.yaml --vault-password-file password`
-
+```console
+ansible-playbook --extra-vars @secrets.enc -i inventory.ini playbooks/crea_vlan_99.yaml --vault-password-file password
+```
