@@ -1,7 +1,0 @@
-- name: Configuro lo switch del rack
-  hosts: switchRack
-  gather_facts: no
-  roles:
-    - name: Configuro lo switch
-      role: configura_switch_rack
-      become: true

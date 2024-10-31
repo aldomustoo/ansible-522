@@ -25,12 +25,12 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-Per eseguire uno script (in questo caso crea_vlan_99.yaml) utilizzare i seguenti comandi:
+Per eseguire uno script (in questo caso configura_switch_rack.yaml) utilizzare i seguenti comandi:
 
 ```bash
 touch password
 
 echo PasswordSegretissimaDiEsempioCambiami > password
 
-ansible-playbook --extra-vars @secrets.enc -i inventory.ini playbooks/crea_vlan_99.yaml --vault-password-file password
+ansible-playbook --extra-vars @secrets.enc -i inventory.ini playbooks/configura_switch_rack.yaml --vault-password-file password
 ```

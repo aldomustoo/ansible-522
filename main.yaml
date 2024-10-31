@@ -5,7 +5,7 @@
           vlan_id: 99
           shutdown: disabled
           state: active
-  
+
   - name: Configurazione porta Gig0/23 in mod trunk con consentite le vlan 1 e 99 con nativa la 1
     cisco.ios.ios_l2_interfaces:
       config:
