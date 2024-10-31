@@ -19,13 +19,9 @@ Successivamente creare il proprio venv e installare i requirements.txt (pip e' r
 
 ```console
 python -m venv ./venv
-```
 
-```console
 source .venv/bin/activate
-```
 
-```console
 pip install -r requirements.txt
 ```
 
@@ -33,12 +29,8 @@ Per eseguire uno script (in questo caso crea_vlan_99.yaml) utilizzare i seguenti
 
 ```console
 touch password
-```
 
-```console
 echo PasswordSegretissimaDiEsempioCambiami > password
-```
 
-```console
 ansible-playbook --extra-vars @secrets.enc -i inventory.ini playbooks/crea_vlan_99.yaml --vault-password-file password
 ```
