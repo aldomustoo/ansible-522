@@ -2,7 +2,6 @@
   hosts: switchRack
   gather_facts: no
   tasks:
-
     - name: Crea vlan 99 per il traffico della lan gia' esistente nel laboratorio 522
       cisco.ios.ios_vlans:
         config:
@@ -10,25 +9,32 @@
             vlan_id: 99
             shutdown: disabled
 
-    - name: Prima di impostare la porta trunk bisogna eseguire il comando switchport trunk encapsulation dot1q
+    - name: Prima di impostare la porta trunk bisogna eseguire il comando switchport trunk encapsulation dot1q e imposto anche una descrizione
       ansible.netcommon.cli_command:
-        command: "{{ item }}"
+        command: |+
+          configure terminal
+          interface {{ item.interfaccia }}
+          description {{ item.descrizione }}
+          switchport trunk encapsulation dot1q
+          exit
+          exit
       loop:
-        - configure terminal
-        - interface GigabitEthernet 0/22
-        - switchport trunk encapsulation dot1q
-        - exit
+        - { interfaccia: "GigabitEthernet 0/23", descrizione: "Porta di collegamento con il proxmox" }
+#        - { interfaccia:"", descrizione:"" } 
 
-    - name: Configurazione porta Gig0/22 in mod trunk con consentite le vlan 1 e 99 con nativa la 1
+    - name: Configurazione porta Gig0/23 in mod trunk con consentite le vlan 1 e 99 con nativa la 1
       cisco.ios.ios_l2_interfaces:
         config:
-          - name: GigabitEthernet0/22
+          - name: "{{ item.name }}"
             mode: trunk
             trunk:
               encapsulation: dot1q
-              allowed_vlans: 1,99
-              native_vlan: 1
+              allowed_vlans: "{{ item.vlans }}"
+              native_vlan: "{{ item.untagged }}"
         state: merged
+      loop:
+        - { name: "GigabitEthernet0/23", vlans: [1, 99], untagged: 1 }
+#        - { name: "GigabitEthernet0/24", vlans: [1, 99], untagged: 1 }
 
     - name: Salvo la configurazione
       ansible.netcommon.cli_command:
