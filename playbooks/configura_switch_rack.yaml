@@ -20,9 +20,14 @@
           exit
       loop:
         - { interfaccia: "GigabitEthernet 0/23", descrizione: "Porta di collegamento con il proxmox" }
-#        - { interfaccia:"", descrizione:"" } 
+        - { interfaccia: "GigabitEthernet 0/2", descrizione: "Switch Banco1" } 
+        - { interfaccia: "GigabitEthernet 0/3", descrizione: "Switch Banco2" } 
+        - { interfaccia: "GigabitEthernet 0/4", descrizione: "Switch Banco3" } 
+        - { interfaccia: "GigabitEthernet 0/5", descrizione: "Switch Banco4" } 
+        - { interfaccia: "GigabitEthernet 0/6", descrizione: "Switch Banco5" } 
+        - { interfaccia: "GigabitEthernet 0/7", descrizione: "Switch Banco6" } 
 
-    - name: Configurazione porta Gig0/23 in mod trunk con consentite le vlan 1 e 99 con nativa la 1
+    - name: Configurazione porte da 2 a 7 e 23 in mod trunk con consentite le vlan 1 e 99 con nativa la 1
       cisco.ios.ios_l2_interfaces:
         config:
           - name: "{{ item.name }}"
@@ -34,7 +39,29 @@
         state: merged
       loop:
         - { name: "GigabitEthernet0/23", vlans: [1, 99], untagged: 1 }
-#        - { name: "GigabitEthernet0/24", vlans: [1, 99], untagged: 1 }
+        - { name: "GigabitEthernet0/2", vlans: [1, 99], untagged: 1 }
+        - { name: "GigabitEthernet0/3", vlans: [1, 99], untagged: 1 }
+        - { name: "GigabitEthernet0/4", vlans: [1, 99], untagged: 1 }
+        - { name: "GigabitEthernet0/5", vlans: [1, 99], untagged: 1 }
+        - { name: "GigabitEthernet0/6", vlans: [1, 99], untagged: 1 }
+        - { name: "GigabitEthernet0/7", vlans: [1, 99], untagged: 1 }
+    
+    - name: Configurazine porta 24 in mod access per l'ingresso della vlan 99 del lab 522
+      cisco.ios.ios_l2_interfaces:
+        config:
+          - name: GigabitEthernet0/24
+            mode: access
+            access:
+              vlan: 99
+    
+    - name: Assegno un nome alla GigabitEthernet 0/24
+      ansible.netcommon.cli_command:
+        command: |+
+          configure terminal
+          interface GigabitEthernet 0/24
+          description Porta access alla VLAN preesistente nel laboratorio
+          exit
+          exit
 
     - name: Salvo la configurazione
       ansible.netcommon.cli_command:
