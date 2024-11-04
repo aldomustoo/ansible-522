@@ -56,6 +56,14 @@
             access:
               vlan: 99
     
+    - name: Configurazine porta 22 in mod access per l'ingresso della vlan 99 del lab 522
+      cisco.ios.ios_l2_interfaces:
+        config:
+          - name: GigabitEthernet0/22
+            mode: access
+            access:
+              vlan: 99
+    
     - name: Assegno un nome alla GigabitEthernet 0/24
       ansible.netcommon.cli_command:
         command: |+
