@@ -20,6 +20,7 @@
           exit
       loop:
         - { interfaccia: "GigabitEthernet 0/23", descrizione: "Porta di collegamento con il proxmox" }
+        - { interfaccia: "GigabitEthernet 0/21", descrizione: "Porta Access Point" }
         - { interfaccia: "GigabitEthernet 0/2", descrizione: "Switch Banco1" } 
         - { interfaccia: "GigabitEthernet 0/3", descrizione: "Switch Banco2" } 
         - { interfaccia: "GigabitEthernet 0/4", descrizione: "Switch Banco3" } 
@@ -39,6 +40,7 @@
         state: merged
       loop:
         - { name: "GigabitEthernet0/23", vlans: [1, 99], untagged: 1 }
+        - { name: "GigabitEthernet0/21", vlans: [1, 99], untagged: 1 }
         - { name: "GigabitEthernet0/2", vlans: [1, 99], untagged: 1 }
         - { name: "GigabitEthernet0/3", vlans: [1, 99], untagged: 1 }
         - { name: "GigabitEthernet0/4", vlans: [1, 99], untagged: 1 }
