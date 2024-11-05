@@ -21,6 +21,7 @@
       loop:
         - { interfaccia: "GigabitEthernet 0/23", descrizione: "Porta di collegamento con il proxmox" }
         - { interfaccia: "GigabitEthernet 0/21", descrizione: "Porta Access Point" }
+        - { interfaccia: "GigabitEthernet 0/22", descrizione: "Porta collegamento OpenWrt" }
         - { interfaccia: "GigabitEthernet 0/2", descrizione: "Switch Banco1" } 
         - { interfaccia: "GigabitEthernet 0/3", descrizione: "Switch Banco2" } 
         - { interfaccia: "GigabitEthernet 0/4", descrizione: "Switch Banco3" } 
@@ -41,28 +42,13 @@
       loop:
         - { name: "GigabitEthernet0/23", vlans: [1, 99], untagged: 1 }
         - { name: "GigabitEthernet0/21", vlans: [1, 99], untagged: 1 }
+        - { name: "GigabitEthernet0/22", vlans: [1, 99], untagged: 1 }
         - { name: "GigabitEthernet0/2", vlans: [1, 99], untagged: 1 }
         - { name: "GigabitEthernet0/3", vlans: [1, 99], untagged: 1 }
         - { name: "GigabitEthernet0/4", vlans: [1, 99], untagged: 1 }
         - { name: "GigabitEthernet0/5", vlans: [1, 99], untagged: 1 }
         - { name: "GigabitEthernet0/6", vlans: [1, 99], untagged: 1 }
         - { name: "GigabitEthernet0/7", vlans: [1, 99], untagged: 1 }
-    
-    - name: Configurazine porta 24 in mod access per l'ingresso della vlan 99 del lab 522
-      cisco.ios.ios_l2_interfaces:
-        config:
-          - name: GigabitEthernet0/24
-            mode: access
-            access:
-              vlan: 99
-    
-    - name: Configurazine porta 22 in mod access per l'ingresso della vlan 99 del lab 522
-      cisco.ios.ios_l2_interfaces:
-        config:
-          - name: GigabitEthernet0/22
-            mode: access
-            access:
-              vlan: 99
     
     - name: Assegno un nome alla GigabitEthernet 0/24
       ansible.netcommon.cli_command:
