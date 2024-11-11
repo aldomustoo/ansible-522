@@ -47,52 +47,52 @@
       ansible.netcommon.cli_command:
         command: write
 
-          #- name: Configuro gli ultimi 2 banchi con switch Cisco Catalyst 3650-G 48 Porte 
-          #  hosts: switchBanchiDa5a6
-          #  gather_facts: no
-          #  tasks:
-          #    - name: Creo la vlan 99 
-          #      cisco.ios.ios_vlans:
-          #        config:
-          #          - name: LAN_LAB_522
-          #            vlan_id: 99
-          #            shutdown: disabled
-          #
-          #
-          #    - name: Definisco la porta GigabitEthernet0/12 come trunk e le assegno una descrizione
-          #      ansible.netcommon.cli_command:
-          #        command: |+
-          #          configure terminal
-          #          interface GigabitEthernet 0/12
-          #          description Porta trunk per il collegamento con lo switchRack
-          #          switchport trunk encapsulation dot1q
-          #          exit
-          #          exit
-          #
-          #    - name: Definisco quali VLAN sono consentite sulla GigabitEthernet0/12, ovvero la 1 nativa e 99 come tagged
-          #      cisco.ios.ios_l2_interfaces:
-          #        config:
-          #          - name: GigabitEthernet0/12
-          #            mode: trunk
-          #            trunk:
-          #              encapsulation: dot1q
-          #              allowed_vlans: 1,99 
-          #              native_vlan: 1
-          #        state: merged
-          #
-          #    - name: Rendo le prime 4 porte access per la LAN preesistente nel LAB 522
-          #      cisco.ios.ios_l2_interfaces:
-          #        config:
-          #          - name: "{{ item }}"
-          #            mode: access
-          #            access:
-          #              vlan: 99
-          #      loop:
-          #        - { "GigabitEthernet0/1" }
-          #        - { "GigabitEthernet0/2" }
-          #        - { "GigabitEthernet0/3" }
-          #        - { "GigabitEthernet0/4" }
-          #
-          #    - name: Salvo la configurazione
-          #      ansible.netcommon.cli_command:
-          #        command: write
+- name: Configuro gli ultimi 2 banchi con switch Cisco Catalyst 3650-G 48 Porte 
+  hosts: switchBanchiDa5a6
+  gather_facts: no
+  tasks:
+    - name: Creo la vlan 99 
+      cisco.ios.ios_vlans:
+        config:
+          - name: LAN_LAB_522
+            vlan_id: 99
+            shutdown: disabled
+
+
+    - name: Definisco la porta GigabitEthernet0/12 come trunk e le assegno una descrizione
+      ansible.netcommon.cli_command:
+        command: |+
+          configure terminal
+          interface GigabitEthernet 0/12
+          description Porta trunk per il collegamento con lo switchRack
+          switchport trunk encapsulation dot1q
+          exit
+          exit
+
+    - name: Definisco quali VLAN sono consentite sulla GigabitEthernet0/12, ovvero la 1 nativa e 99 come tagged
+      cisco.ios.ios_l2_interfaces:
+        config:
+          - name: GigabitEthernet0/12
+            mode: trunk
+            trunk:
+              encapsulation: dot1q
+              allowed_vlans: 1,99 
+              native_vlan: 1
+        state: merged
+
+    - name: Rendo le prime 4 porte access per la LAN preesistente nel LAB 522
+      cisco.ios.ios_l2_interfaces:
+        config:
+          - name: "{{ item.interfaccia }}"
+            mode: access
+            access:
+              vlan: 99
+      loop:
+        - { interfaccia: "GigabitEthernet0/1" }
+        - { interfaccia: "GigabitEthernet0/2" }
+        - { interfaccia: "GigabitEthernet0/3" }
+        - { interfaccia: "GigabitEthernet0/4" }
+
+    - name: Salvo la configurazione
+      ansible.netcommon.cli_command:
+           command: write
