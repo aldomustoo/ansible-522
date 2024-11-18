@@ -16,6 +16,33 @@
             vlan_id: 100
             shutdown: disabled
 
+    - name: Creo le vlan per i banchi singoli, ovvero 10, 20, 30, 40, 50, 60
+      cisco.ios.ios_vlans:
+        config:
+          - name: vlan_banco_1
+            vlan_id: 10
+            shutdown: disabled
+          
+          - name: vlan_banco_2
+            vlan_id: 20
+            shutdown: disabled
+
+          - name: vlan_banco_3
+            vlan_id: 30
+            shutdown: disabled
+
+          - name: vlan_banco_4
+            vlan_id: 40
+            shutdown: disabled
+
+          - name: vlan_banco_5
+            vlan_id: 50
+            shutdown: disabled
+
+          - name: vlan_banco_6
+            vlan_id: 60
+            shutdown: disabled
+
     - name: Prima di impostare la porta trunk bisogna eseguire il comando switchport trunk encapsulation dot1q e imposto anche una descrizione
       ansible.netcommon.cli_command:
         command: |+
@@ -28,6 +55,7 @@
       loop:
         - { interfaccia: "GigabitEthernet 0/23", descrizione: "Porta di collegamento con il proxmox" }
         - { interfaccia: "GigabitEthernet 0/21", descrizione: "Porta Access Point" }
+        - { interfaccia: "GigabitEthernet 0/19", descrizione: "Porta Cisco Rack" }
         - { interfaccia: "GigabitEthernet 0/2", descrizione: "Switch Banco1" } 
         - { interfaccia: "GigabitEthernet 0/3", descrizione: "Switch Banco2" } 
         - { interfaccia: "GigabitEthernet 0/4", descrizione: "Switch Banco3" } 
@@ -46,9 +74,9 @@
               native_vlan: "{{ item.untagged }}"
         state: merged
       loop:
-        - { name: "GigabitEthernet0/23", vlans: [1, 99, 100], untagged: 1 }
+        - { name: "GigabitEthernet0/23", vlans: [1, 10, 20, 30, 40, 50, 60, 99, 100], untagged: 1 }
         - { name: "GigabitEthernet0/21", vlans: [1, 99], untagged: 1 }
-        - { name: "GigabitEthernet0/2", vlans: [1, 99], untagged: 1 }
+        - { name: "GigabitEthernet0/19", vlans: [1, 10, 20, 30, 40, 50, 60, 99], untagged: 1 }
         - { name: "GigabitEthernet0/3", vlans: [1, 99], untagged: 1 }
         - { name: "GigabitEthernet0/4", vlans: [1, 99], untagged: 1 }
         - { name: "GigabitEthernet0/5", vlans: [1, 99], untagged: 1 }
