@@ -8,6 +8,31 @@
           - name: LAN_LAB_522
             vlan_id: 99
             shutdown: disabled
+          
+          - name: vlan_banco_1
+            vlan_id: 10
+            shutdown: disabled
+
+          - name: vlan_banco_2
+            vlan_id: 20
+            shutdown: disabled
+
+          - name: vlan_banco_3
+            vlan_id: 30
+            shutdown: disabled
+
+          - name: vlan_banco_4
+            vlan_id: 40
+            shutdown: disabled
+
+          - name: vlan_banco_5
+            vlan_id: 50
+            shutdown: disabled
+
+          - name: vlan_banco_6
+            vlan_id: 60
+            shutdown: disabled
+
 
     - name: Definisco la porta GigabitEthernet1/0/12 come trunk e le assegno una descrizione
       ansible.netcommon.cli_command:
