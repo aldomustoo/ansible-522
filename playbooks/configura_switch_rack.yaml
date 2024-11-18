@@ -77,11 +77,12 @@
         - { name: "GigabitEthernet0/23", vlans: [1, 10, 20, 30, 40, 50, 60, 99, 100], untagged: 1 }
         - { name: "GigabitEthernet0/21", vlans: [1, 99], untagged: 1 }
         - { name: "GigabitEthernet0/19", vlans: [1, 10, 20, 30, 40, 50, 60, 99], untagged: 1 }
-        - { name: "GigabitEthernet0/3", vlans: [1, 99], untagged: 1 }
-        - { name: "GigabitEthernet0/4", vlans: [1, 99], untagged: 1 }
-        - { name: "GigabitEthernet0/5", vlans: [1, 99], untagged: 1 }
-        - { name: "GigabitEthernet0/6", vlans: [1, 99], untagged: 1 }
-        - { name: "GigabitEthernet0/7", vlans: [1, 99], untagged: 1 }
+        - { name: "GigabitEthernet0/2", vlans: [1, 10, 20, 30, 40, 50, 60, 100], untagged: 1 }
+        - { name: "GigabitEthernet0/3", vlans: [1, 10, 20, 30, 40, 50, 60, 99], untagged: 1 }
+        - { name: "GigabitEthernet0/4", vlans: [1, 10, 20, 30, 40, 50, 60, 99], untagged: 1 }
+        - { name: "GigabitEthernet0/5", vlans: [1, 10, 20, 30, 40, 50, 60, 99], untagged: 1 }
+        - { name: "GigabitEthernet0/6", vlans: [1, 10, 20, 30, 40, 50, 60, 99], untagged: 1 }
+        - { name: "GigabitEthernet0/7", vlans: [1, 10, 20, 30, 40, 50, 60, 99], untagged: 1 }
     
     - name: Assegno un nome alla GigabitEthernet 0/24 e alla GigabitEthernet 0/22
       ansible.netcommon.cli_command:
