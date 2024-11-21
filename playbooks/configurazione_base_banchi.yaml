@@ -51,7 +51,7 @@
             mode: trunk
             trunk:
               encapsulation: dot1q
-              allowed_vlans: 1,99 
+              allowed_vlans: 1, 10, 20, 30, 40, 50, 60, 99 
               native_vlan: 1
         state: merged
 
@@ -83,6 +83,29 @@
             vlan_id: 99
             shutdown: disabled
 
+          - name: vlan_banco_1
+            vlan_id: 10
+            shutdown: disabled
+
+          - name: vlan_banco_2
+            vlan_id: 20
+            shutdown: disabled
+
+          - name: vlan_banco_3
+            vlan_id: 30
+            shutdown: disabled
+
+          - name: vlan_banco_4
+            vlan_id: 40
+            shutdown: disabled
+
+          - name: vlan_banco_5
+            vlan_id: 50
+            shutdown: disabled
+
+          - name: vlan_banco_6
+            vlan_id: 60
+            shutdown: disabled
 
     - name: Definisco la porta GigabitEthernet0/12 come trunk e le assegno una descrizione
       ansible.netcommon.cli_command:
@@ -101,7 +124,7 @@
             mode: trunk
             trunk:
               encapsulation: dot1q
-              allowed_vlans: 1,99 
+              allowed_vlans: 1, 10, 20, 30, 40, 50, 60, 99 
               native_vlan: 1
         state: merged
 
