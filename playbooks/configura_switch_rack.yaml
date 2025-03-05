@@ -62,6 +62,8 @@
         - { interfaccia: "GigabitEthernet 0/5", descrizione: "Switch Banco4" } 
         - { interfaccia: "GigabitEthernet 0/6", descrizione: "Switch Banco5" } 
         - { interfaccia: "GigabitEthernet 0/7", descrizione: "Switch Banco6" } 
+        - { interfaccia: "GigabitEthernet 0/18", descrizione: "Porta per raspberryPi" } 
+
 
     - name: Configurazione porte da 2 a 7 e 23 in mod trunk con consentite le vlan 1 e 99 con nativa la 1
       cisco.ios.ios_l2_interfaces:
@@ -75,8 +77,8 @@
         state: merged
       loop:
         - { name: "GigabitEthernet0/23", vlans: [1, 10, 20, 30, 40, 50, 60, 99, 100], untagged: 1 }
-        - { name: "GigabitEthernet0/21", vlans: [1, 99], untagged: 1 }
-        - { name: "GigabitEthernet0/19", vlans: [1, 10, 20, 30, 40, 50, 60, 99], untagged: 1 }
+        - { name: "GigabitEthernet0/21", vlans: [1, 99, 10, 20, 30, 40, 50, 60], untagged: 1 }
+        - { name: "GigabitEthernet0/19", vlans: [1, 10, 20, 30, 40, 50, 60, 99, 100], untagged: 1 }
         - { name: "GigabitEthernet0/2", vlans: [1, 10, 20, 30, 40, 50, 60, 100], untagged: 1 }
         - { name: "GigabitEthernet0/3", vlans: [1, 10, 20, 30, 40, 50, 60, 99], untagged: 1 }
         - { name: "GigabitEthernet0/4", vlans: [1, 10, 20, 30, 40, 50, 60, 99], untagged: 1 }
@@ -94,6 +96,9 @@
           interface GigabitEthernet 0/22
           description WAN fornita dal liberator
           exit
+          interface GigabitEthernet 0/18
+          description Porta raspberryPi
+          exit
           exit
 
     - name: Definisco le interfacce con l'esterno, ovvero la 22 (WAN) e la 24 (LAN_LAB_522)
@@ -107,6 +112,11 @@
             mode: access
             access:
               vlan: 99
+          - name: GigabitEthernet0/18
+            mode: access
+            access:
+              vlan: 99
+
 
     - name: Salvo la configurazione
       ansible.netcommon.cli_command:
