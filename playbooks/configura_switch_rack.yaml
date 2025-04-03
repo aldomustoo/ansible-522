@@ -97,6 +97,7 @@
           interface GigabitEthernet 0/18
           description Porta di collegamento per il raspberry Pi
           exit
+          exit
 
     - name: Definisco le interfacce con l'esterno, ovvero la 22 (WAN) e la 24 (LAN_LAB_522)
       cisco.ios.ios_l2_interfaces:
