@@ -8,7 +8,7 @@
           - name: LAN_LAB_522
             vlan_id: 99
             shutdown: disabled
-    
+
     - name: Crea vlan 100 per la WAN fornita dal Liberator
       cisco.ios.ios_vlans:
         config:
@@ -22,7 +22,7 @@
           - name: vlan_banco_1
             vlan_id: 10
             shutdown: disabled
-          
+
           - name: vlan_banco_2
             vlan_id: 20
             shutdown: disabled
@@ -56,16 +56,16 @@
         - { interfaccia: "GigabitEthernet 0/23", descrizione: "Porta di collegamento con il proxmox" }
         - { interfaccia: "GigabitEthernet 0/21", descrizione: "Porta Access Point" }
         - { interfaccia: "GigabitEthernet 0/19", descrizione: "Porta Cisco Rack" }
-        - { interfaccia: "GigabitEthernet 0/2", descrizione: "Switch Banco1" } 
-        - { interfaccia: "GigabitEthernet 0/3", descrizione: "Switch Banco2" } 
-        - { interfaccia: "GigabitEthernet 0/4", descrizione: "Switch Banco3" } 
-        - { interfaccia: "GigabitEthernet 0/5", descrizione: "Switch Banco4" } 
-        - { interfaccia: "GigabitEthernet 0/6", descrizione: "Switch Banco5" } 
-        - { interfaccia: "GigabitEthernet 0/7", descrizione: "Switch Banco6" } 
-        - { interfaccia: "GigabitEthernet 0/18", descrizione: "Porta per raspberryPi" } 
+        - { interfaccia: "GigabitEthernet 0/2", descrizione: "Switch Banco1" }
+        - { interfaccia: "GigabitEthernet 0/3", descrizione: "Switch Banco2" }
+        - { interfaccia: "GigabitEthernet 0/4", descrizione: "Switch Banco3" }
+        - { interfaccia: "GigabitEthernet 0/5", descrizione: "Switch Banco4" }
+        - { interfaccia: "GigabitEthernet 0/6", descrizione: "Switch Banco5" }
+        - { interfaccia: "GigabitEthernet 0/7", descrizione: "Switch Banco6" }
+        - { interfaccia: "GigabitEthernet 0/18", descrizione: "Porta per raspberryPi" }
 
 
-    - name: Configurazione porte da 2 a 7 e 23 in mod trunk con consentite le vlan 1 e 99 con nativa la 1
+    - name: Configurazione porte da 2 a 7, 19, 21 e 23 in mod trunk con consentite le vlan 1 e 99 con nativa la 1
       cisco.ios.ios_l2_interfaces:
         config:
           - name: "{{ item.name }}"
@@ -77,15 +77,15 @@
         state: merged
       loop:
         - { name: "GigabitEthernet0/23", vlans: [1, 10, 20, 30, 40, 50, 60, 99, 100], untagged: 1 }
-        - { name: "GigabitEthernet0/21", vlans: [1, 99, 10, 20, 30, 40, 50, 60], untagged: 1 }
+        - { name: "GigabitEthernet0/21", vlans: [1, 10, 20, 30, 30, 50, 60, 99], untagged: 1 }
         - { name: "GigabitEthernet0/19", vlans: [1, 10, 20, 30, 40, 50, 60, 99, 100], untagged: 1 }
-        - { name: "GigabitEthernet0/2", vlans: [1, 10, 20, 30, 40, 50, 60, 100], untagged: 1 }
+        - { name: "GigabitEthernet0/2", vlans: [1, 10, 20, 30, 40, 50, 60, 99], untagged: 1 }
         - { name: "GigabitEthernet0/3", vlans: [1, 10, 20, 30, 40, 50, 60, 99], untagged: 1 }
         - { name: "GigabitEthernet0/4", vlans: [1, 10, 20, 30, 40, 50, 60, 99], untagged: 1 }
         - { name: "GigabitEthernet0/5", vlans: [1, 10, 20, 30, 40, 50, 60, 99], untagged: 1 }
         - { name: "GigabitEthernet0/6", vlans: [1, 10, 20, 30, 40, 50, 60, 99], untagged: 1 }
         - { name: "GigabitEthernet0/7", vlans: [1, 10, 20, 30, 40, 50, 60, 99], untagged: 1 }
-    
+
     - name: Assegno un nome alla GigabitEthernet 0/24 e alla GigabitEthernet 0/22
       ansible.netcommon.cli_command:
         command: |+
@@ -95,9 +95,6 @@
           exit
           interface GigabitEthernet 0/22
           description WAN fornita dal liberator
-          exit
-          interface GigabitEthernet 0/18
-          description Porta raspberryPi
           exit
           exit
 
