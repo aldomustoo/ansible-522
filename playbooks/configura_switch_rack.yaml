@@ -62,8 +62,6 @@
         - { interfaccia: "GigabitEthernet 0/5", descrizione: "Switch Banco4" }
         - { interfaccia: "GigabitEthernet 0/6", descrizione: "Switch Banco5" }
         - { interfaccia: "GigabitEthernet 0/7", descrizione: "Switch Banco6" }
-        - { interfaccia: "GigabitEthernet 0/18", descrizione: "Porta per raspberryPi" }
-
 
     - name: Configurazione porte da 2 a 7, 19, 21 e 23 in mod trunk con consentite le vlan 1 e 99 con nativa la 1
       cisco.ios.ios_l2_interfaces:
@@ -96,6 +94,8 @@
           interface GigabitEthernet 0/22
           description WAN fornita dal liberator
           exit
+          interface GigabitEthernet 0/18
+          description Porta di collegamento per il raspberry Pi
           exit
 
     - name: Definisco le interfacce con l'esterno, ovvero la 22 (WAN) e la 24 (LAN_LAB_522)
