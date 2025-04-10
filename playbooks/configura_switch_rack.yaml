@@ -43,6 +43,14 @@
             vlan_id: 60
             shutdown: disabled
 
+
+    - name: Crea vlan 101 per la VLAN per il corso centraline
+      cisco.ios.ios_vlans:
+        config:
+          - name: Centraline
+            vlan_id: 101
+            shutdown: disabled
+
     - name: Prima di impostare la porta trunk bisogna eseguire il comando switchport trunk encapsulation dot1q e imposto anche una descrizione
       ansible.netcommon.cli_command:
         command: |+
@@ -74,8 +82,8 @@
               native_vlan: "{{ item.untagged }}"
         state: merged
       loop:
-        - { name: "GigabitEthernet0/23", vlans: [1, 10, 20, 30, 40, 50, 60, 99, 100], untagged: 1 }
-        - { name: "GigabitEthernet0/21", vlans: [1, 10, 20, 30, 30, 50, 60, 99], untagged: 1 }
+        - { name: "GigabitEthernet0/23", vlans: [1, 10, 20, 30, 40, 50, 60, 99, 100, 101], untagged: 1 }
+        - { name: "GigabitEthernet0/21", vlans: [1, 10, 20, 30, 30, 50, 60, 99, 101], untagged: 1 }
         - { name: "GigabitEthernet0/19", vlans: [1, 10, 20, 30, 40, 50, 60, 99, 100], untagged: 1 }
         - { name: "GigabitEthernet0/2", vlans: [1, 10, 20, 30, 40, 50, 60, 99], untagged: 1 }
         - { name: "GigabitEthernet0/3", vlans: [1, 10, 20, 30, 40, 50, 60, 99], untagged: 1 }
