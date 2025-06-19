@@ -18,10 +18,12 @@ git clone https://git522.tlc-fermi.us/root/ansible-522.git
 Successivamente creare il proprio venv e installare i requirements.txt (pip e' richiesto)
 
 ```bash
-python -m venv ./venv
+python -m venv .venv
 
+# Nel caso in cui si usi bash usare 
 source .venv/bin/activate
-
+#altrimenti 
+# source .venv/bin/activate.fish
 pip install -r requirements.txt
 ```
 
