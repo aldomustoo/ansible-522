@@ -12,7 +12,7 @@ ssh -oKexAlgorithms=+diffie-hellman-group1-sha1 -oHostkeyAlgorithms=+ssh-rsa -oC
 E' necessario innanzitutto clonare la repository con il comando:
 
 ```bash
-git clone http://172.16.0.5:3000/root/ansible-522.git
+git clone https://git522.tlc-fermi.us/root/ansible-522.git
 ```
 
 Successivamente creare il proprio venv e installare i requirements.txt (pip e' richiesto)
