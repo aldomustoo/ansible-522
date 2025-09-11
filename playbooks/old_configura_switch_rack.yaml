@@ -2,18 +2,18 @@
   hosts: switchRack
   gather_facts: no
   tasks:
-    - name: Crea vlan 99 per il traffico della lan gia' esistente nel laboratorio 522 del centro rete con vid 185
+    - name: Crea vlan 99 per il traffico della lan gia' esistente nel laboratorio 522
       cisco.ios.ios_vlans:
         config:
           - name: LAN_LAB_522
             vlan_id: 99
             shutdown: disabled
 
-    - name: Crea vlan 100 per la WAN fornita dal centro rete fornita dal centro rete con VID 186
+    - name: Crea vlan 100 per la WAN fornita dal Liberator
       cisco.ios.ios_vlans:
         config:
           - name: WAN
-            vlan_id: 186
+            vlan_id: 100
             shutdown: disabled
 
     - name: Creo le vlan per i banchi singoli, ovvero 10, 20, 30, 40, 50, 60
@@ -61,9 +61,8 @@
           exit
           exit
       loop:
-        - { interfaccia: "GigabitEthernet 0/24", descrizione: "Porta di collegamento verso la vlan gia presente nel lab e per la rete libera" }
         - { interfaccia: "GigabitEthernet 0/23", descrizione: "Porta di collegamento con il proxmox" }
-        - { interfaccia: "GigabitEthernet 0/21", descrizione: "Porta Access Point numero 1" }
+        - { interfaccia: "GigabitEthernet 0/21", descrizione: "Porta Access Point" }
         - { interfaccia: "GigabitEthernet 0/19", descrizione: "Porta Cisco Rack" }
         - { interfaccia: "GigabitEthernet 0/2", descrizione: "Switch Banco1" }
         - { interfaccia: "GigabitEthernet 0/3", descrizione: "Switch Banco2" }
@@ -72,7 +71,7 @@
         - { interfaccia: "GigabitEthernet 0/6", descrizione: "Switch Banco5" }
         - { interfaccia: "GigabitEthernet 0/7", descrizione: "Switch Banco6" }
 
-    - name: Configurazione porte da 2 a 7 per i banchi, la 19 per il rack, la 21 per l'access point, la 23 per il proxmox e la 24 per il laboratorio e la rete libera
+    - name: Configurazione porte da 2 a 7, 19, 21 e 23 in mod trunk con consentite le vlan 1 e 99 con nativa la 1
       cisco.ios.ios_l2_interfaces:
         config:
           - name: "{{ item.name }}"
@@ -81,10 +80,9 @@
               encapsulation: dot1q
               allowed_vlans: "{{ item.vlans }}"
               native_vlan: "{{ item.untagged }}"
-        state: replaced
+        state: merged
       loop:
-        - { name: "GigabitEthernet0/24", vlans: [99, 186], untagged: 99 }
-        - { name: "GigabitEthernet0/23", vlans: [1, 10, 20, 30, 40, 50, 60, 99, 186, 101], untagged: 1 }
+        - { name: "GigabitEthernet0/23", vlans: [1, 10, 20, 30, 40, 50, 60, 99, 100, 101], untagged: 1 }
         - { name: "GigabitEthernet0/21", vlans: [1, 10, 20, 30, 30, 50, 60, 99, 101], untagged: 1 }
         - { name: "GigabitEthernet0/19", vlans: [1, 10, 20, 30, 40, 50, 60, 99, 100], untagged: 1 }
         - { name: "GigabitEthernet0/2", vlans: [1, 10, 20, 30, 40, 50, 60, 99], untagged: 1 }
@@ -93,6 +91,38 @@
         - { name: "GigabitEthernet0/5", vlans: [1, 10, 20, 30, 40, 50, 60, 99], untagged: 1 }
         - { name: "GigabitEthernet0/6", vlans: [1, 10, 20, 30, 40, 50, 60, 99], untagged: 1 }
         - { name: "GigabitEthernet0/7", vlans: [1, 10, 20, 30, 40, 50, 60, 99], untagged: 1 }
+
+    - name: Assegno un nome alla GigabitEthernet 0/24 e alla GigabitEthernet 0/22
+      ansible.netcommon.cli_command:
+        command: |+
+          configure terminal
+          interface GigabitEthernet 0/24
+          description Porta access alla VLAN preesistente nel laboratorio
+          exit
+          interface GigabitEthernet 0/22
+          description WAN fornita dal liberator
+          exit
+          interface GigabitEthernet 0/18
+          description Porta di collegamento per il raspberry Pi
+          exit
+          exit
+
+    - name: Definisco le interfacce con l'esterno, ovvero la 22 (WAN) e la 24 (LAN_LAB_522)
+      cisco.ios.ios_l2_interfaces:
+        config:
+          - name: GigabitEthernet0/22
+            mode: access
+            access:
+              vlan: 100
+          - name: GigabitEthernet0/24
+            mode: access
+            access:
+              vlan: 99
+          - name: GigabitEthernet0/18
+            mode: access
+            access:
+              vlan: 99
+
 
     - name: Salvo la configurazione
       ansible.netcommon.cli_command:
