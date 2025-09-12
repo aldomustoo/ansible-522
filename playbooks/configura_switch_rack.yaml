@@ -9,7 +9,7 @@
             vlan_id: 99
             shutdown: disabled
 
-    - name: Crea vlan 100 per la WAN fornita dal centro rete fornita dal centro rete con VID 186
+    - name: Creo la WAN fornita dal centro rete fornita dal centro rete con VID 186
       cisco.ios.ios_vlans:
         config:
           - name: WAN
