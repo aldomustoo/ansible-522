@@ -64,7 +64,8 @@
         - { interfaccia: "GigabitEthernet 0/24", descrizione: "Porta di collegamento verso la vlan gia presente nel lab e per la rete libera" }
         - { interfaccia: "GigabitEthernet 0/23", descrizione: "Porta di collegamento con il proxmox" }
         - { interfaccia: "GigabitEthernet 0/21", descrizione: "Porta Access Point numero 1" }
-        - { interfaccia: "GigabitEthernet 0/19", descrizione: "Porta Cisco Rack" }
+        - { interfaccia: "GigabitEthernet 0/19", descrizione: "Porta Access Point numero 2" }
+        - { interfaccia: "GigabitEthernet 0/17", descrizione: "Porta Access Point numero 3" }
         - { interfaccia: "GigabitEthernet 0/2", descrizione: "Switch Banco1" }
         - { interfaccia: "GigabitEthernet 0/3", descrizione: "Switch Banco2" }
         - { interfaccia: "GigabitEthernet 0/4", descrizione: "Switch Banco3" }
@@ -86,13 +87,25 @@
         - { name: "GigabitEthernet0/24", vlans: [99, 186], untagged: 99 }
         - { name: "GigabitEthernet0/23", vlans: [1, 10, 20, 30, 40, 50, 60, 99, 186, 101], untagged: 1 }
         - { name: "GigabitEthernet0/21", vlans: [1, 10, 20, 30, 30, 50, 60, 99, 101], untagged: 1 }
-        - { name: "GigabitEthernet0/19", vlans: [1, 10, 20, 30, 40, 50, 60, 99, 100], untagged: 1 }
+        - { name: "GigabitEthernet0/19", vlans: [1, 10, 20, 30, 30, 50, 60, 99, 101], untagged: 1 }
+        - { name: "GigabitEthernet0/17", vlans: [1, 10, 20, 30, 30, 50, 60, 99, 101], untagged: 1 }
         - { name: "GigabitEthernet0/2", vlans: [1, 10, 20, 30, 40, 50, 60, 99], untagged: 1 }
         - { name: "GigabitEthernet0/3", vlans: [1, 10, 20, 30, 40, 50, 60, 99], untagged: 1 }
         - { name: "GigabitEthernet0/4", vlans: [1, 10, 20, 30, 40, 50, 60, 99], untagged: 1 }
         - { name: "GigabitEthernet0/5", vlans: [1, 10, 20, 30, 40, 50, 60, 99], untagged: 1 }
         - { name: "GigabitEthernet0/6", vlans: [1, 10, 20, 30, 40, 50, 60, 99], untagged: 1 }
         - { name: "GigabitEthernet0/7", vlans: [1, 10, 20, 30, 40, 50, 60, 99], untagged: 1 }
+    
+    - name: Configuro la porta GigabitEthernet0/1 come accesso per la vlan 99, in modo che il docente si trovi nella vlan degli studenti.
+
+      cisco.ios.ios_l2_interfaces:
+        config:
+          - name: GigabitEthernet0/1
+            mode: access
+            access:
+              vlan: 99
+
+        state: replaced
 
     - name: Salvo la configurazione
       ansible.netcommon.cli_command:
