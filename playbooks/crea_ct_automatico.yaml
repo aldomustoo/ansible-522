@@ -1,0 +1,24 @@
+- name: Avvia script crea_ct_automatico.sh su Proxmox
+  hosts: proxmox
+  become: yes
+  become_user: root
+
+  tasks:
+    - name: Verifica che lo script esista
+      stat:
+        path: /root/crea_ct_automatico.sh
+      register: script_stat
+
+    - name: Fallisci se lo script non esiste
+      fail:
+        msg: "Lo script /root/crea_ct_automatico.sh non esiste!"
+      when: not script_stat.stat.exists
+
+    - name: Esegui lo script crea_ct_automatico.sh
+      command: /root/crea_ct_automatico.sh
+      register: crea_ct_output
+      ignore_errors: no
+
+    - name: Mostra output dello script
+      debug:
+        var: crea_ct_output.stdout_lines

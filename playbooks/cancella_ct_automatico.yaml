@@ -1,0 +1,24 @@
+- name: Avvia script cancella_ct_automatico.sh su Proxmox
+  hosts: proxmox
+  become: yes
+  gather_facts: no
+
+  tasks:
+    - name: Verifica che lo script esista
+      stat:
+        path: /root/cancella_ct_automatico.sh
+      register: script_stat
+
+    - name: Fallisci se lo script non esiste
+      fail:
+        msg: "Lo script /root/cancella_ct_automatico.sh non esiste!"
+      when: not script_stat.stat.exists
+
+    - name: Esegui lo script cancella_ct_automatico.sh
+      command: /root/cancella_ct_automatico.sh
+      register: cancella_ct_output
+      ignore_errors: no
+
+    - name: Mostra output dello script
+      debug:
+        var: cancella_ct_output.stdout_lines
