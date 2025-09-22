@@ -23,19 +23,15 @@ Successivamente creare il proprio venv e installare i requirements.txt (pip e' r
 
 ```bash
 python -m venv ./venv
-
 source .venv/bin/activate
-
 pip install -r requirements.txt
-```
 ansible-galaxy collection install -r requirements.yml
+```
 
 Per eseguire uno script (in questo caso configura_switch_rack.yaml) utilizzare i seguenti comandi:
 
 ```bash
 touch password
-
 echo PasswordSegretissimaDiEsempioCambiami > password
-
 ansible-playbook --extra-vars @secrets.enc -i inventory.ini playbooks/configura_switch_rack.yaml --vault-password-file password
 ```
