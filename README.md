@@ -28,6 +28,7 @@ source .venv/bin/activate
 
 pip install -r requirements.txt
 ```
+ansible-galaxy collection install -r requirements.yml
 
 Per eseguire uno script (in questo caso configura_switch_rack.yaml) utilizzare i seguenti comandi:
 
