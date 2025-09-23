@@ -2,6 +2,7 @@
   hosts: switchBanco1
   gather_facts: no
   tasks:
+
     - name: Rendo le prime 4 porte access sulla vlan 10
       cisco.ios.ios_l2_interfaces:
         config:
@@ -23,6 +24,7 @@
   hosts: switchBanco2
   gather_facts: no
   tasks:
+
     - name: Rendo le prime 4 porte access sulla vlan 20
       cisco.ios.ios_l2_interfaces:
         config:
@@ -44,7 +46,8 @@
   hosts: switchBanco3
   gather_facts: no
   tasks:
-    - name: Rendo le prime 4 porte access sulla vlan 30
+
+  - name: Rendo le prime 4 porte access sulla vlan 30
       cisco.ios.ios_l2_interfaces:
         config:
           - name: "{{ item.interfaccia }}"
@@ -61,11 +64,12 @@
       ansible.netcommon.cli_command:
         command: write
 
-- name: Configuro il quarto banco sulla vlan 40
+- name: Configuro il secondo banco sulla vlan 40
   hosts: switchBanco4
   gather_facts: no
   tasks:
-    - name: Rendo le prime 4 porte access sulla vlan 40
+
+  - name: Rendo le prime 4 porte access sulla vlan 40
       cisco.ios.ios_l2_interfaces:
         config:
           - name: "{{ item.interfaccia }}"
@@ -101,9 +105,10 @@
 
     - name: Salvo la configurazione
       ansible.netcommon.cli_command:
-        command: write
+           command: write
+          
 
-- name: Configuro il sesto banco sulla vlan 60 
+- name: Configuro il quinto banco sulla vlan 60 
   hosts: switchBanco6
   gather_facts: no
   tasks:
@@ -122,5 +127,4 @@
 
     - name: Salvo la configurazione
       ansible.netcommon.cli_command:
-        command: write
-
+           command: write
