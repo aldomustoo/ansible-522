@@ -3,28 +3,59 @@
   gather_facts: no
   vars:
     banchi:
-      - { host: "switchBanco1", vlan: 10, interfacce: ["GigabitEthernet1/0/1", "GigabitEthernet1/0/2", "GigabitEthernet1/0/3", "GigabitEthernet1/0/4"] }
-      - { host: "switchBanco2", vlan: 20, interfacce: ["GigabitEthernet1/0/1", "GigabitEthernet1/0/2", "GigabitEthernet1/0/3", "GigabitEthernet1/0/4"] }
-      - { host: "switchBanco3", vlan: 30, interfacce: ["GigabitEthernet1/0/1", "GigabitEthernet1/0/2", "GigabitEthernet1/0/3", "GigabitEthernet1/0/4"] }
-      - { host: "switchBanco4", vlan: 40, interfacce: ["GigabitEthernet0/1",   "GigabitEthernet0/2",   "GigabitEthernet0/3",   "GigabitEthernet0/4"] }
-      - { host: "switchBanco5", vlan: 50, interfacce: ["GigabitEthernet1/0/1", "GigabitEthernet1/0/2", "GigabitEthernet1/0/3", "GigabitEthernet1/0/4"] }
-      - { host: "switchBanco6", vlan: 60, interfacce: ["GigabitEthernet0/1",   "GigabitEthernet0/2",   "GigabitEthernet0/3",   "GigabitEthernet0/4"] }
+      - host: "switchBanco1"
+        vlan: 10
+        interfacce:
+          - GigabitEthernet1/0/1
+          - GigabitEthernet1/0/2
+          - GigabitEthernet1/0/3
+          - GigabitEthernet1/0/4
+      - host: "switchBanco2"
+        vlan: 20
+        interfacce:
+          - GigabitEthernet1/0/1
+          - GigabitEthernet1/0/2
+          - GigabitEthernet1/0/3
+          - GigabitEthernet1/0/4
+      - host: "switchBanco3"
+        vlan: 30
+        interfacce:
+          - GigabitEthernet1/0/1
+          - GigabitEthernet1/0/2
+          - GigabitEthernet1/0/3
+          - GigabitEthernet1/0/4
+      - host: "switchBanco4"
+        vlan: 40
+        interfacce:
+          - GigabitEthernet0/1
+          - GigabitEthernet0/2
+          - GigabitEthernet0/3
+          - GigabitEthernet0/4
+      - host: "switchBanco5"
+        vlan: 50
+        interfacce:
+          - GigabitEthernet1/0/1
+          - GigabitEthernet1/0/2
+          - GigabitEthernet1/0/3
+          - GigabitEthernet1/0/4
+      - host: "switchBanco6"
+        vlan: 60
+        interfacce:
+          - GigabitEthernet0/1
+          - GigabitEthernet0/2
+          - GigabitEthernet0/3
+          - GigabitEthernet0/4
 
   tasks:
     - name: Rendo le porte access sulle VLAN
       cisco.ios.ios_l2_interfaces:
         config:
-          - name: "{{ item_interfaccia }}"
+          - name: "{{ item.1 }}"
             mode: access
             access:
-              vlan: "{{ item_banco.vlan }}"
-      loop: "{{ item_banco.interfacce }}"
-      loop_control:
-        loop_var: item_interfaccia
-      when: inventory_hostname == item_banco.host
-      with_items: "{{ banchi }}"
-      loop_control:
-        loop_var: item_banco
+              vlan: "{{ item.0.vlan }}"
+      loop: "{{ banchi | subelements('interfacce') }}"
+      when: inventory_hostname == item.0.host
 
     - name: Salvo la configurazione
       ansible.netcommon.cli_command:
