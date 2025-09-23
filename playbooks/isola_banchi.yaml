@@ -1,5 +1,5 @@
 - name: Configuro i banchi sulle rispettive VLAN
-  hosts: all
+  hosts: switchBanchi
   gather_facts: no
   vars:
     banchi:
