@@ -1,124 +1,30 @@
-- name: Configuro il primo banco sulla vlan 10
-  hosts: switchBanco1
+- name: Configuro i banchi sulle rispettive VLAN
+  hosts: all
   gather_facts: no
+  vars:
+    banchi:
+      - { host: "switchBanco1", vlan: 10, interfacce: ["GigabitEthernet1/0/1", "GigabitEthernet1/0/2", "GigabitEthernet1/0/3", "GigabitEthernet1/0/4"] }
+      - { host: "switchBanco2", vlan: 20, interfacce: ["GigabitEthernet1/0/1", "GigabitEthernet1/0/2", "GigabitEthernet1/0/3", "GigabitEthernet1/0/4"] }
+      - { host: "switchBanco3", vlan: 30, interfacce: ["GigabitEthernet1/0/1", "GigabitEthernet1/0/2", "GigabitEthernet1/0/3", "GigabitEthernet1/0/4"] }
+      - { host: "switchBanco4", vlan: 40, interfacce: ["GigabitEthernet0/1",   "GigabitEthernet0/2",   "GigabitEthernet0/3",   "GigabitEthernet0/4"] }
+      - { host: "switchBanco5", vlan: 50, interfacce: ["GigabitEthernet1/0/1", "GigabitEthernet1/0/2", "GigabitEthernet1/0/3", "GigabitEthernet1/0/4"] }
+      - { host: "switchBanco6", vlan: 60, interfacce: ["GigabitEthernet0/1",   "GigabitEthernet0/2",   "GigabitEthernet0/3",   "GigabitEthernet0/4"] }
+
   tasks:
-    - name: Rendo le prime 4 porte access sulla vlan 10
+    - name: Rendo le porte access sulle VLAN
       cisco.ios.ios_l2_interfaces:
         config:
-          - name: "{{ item.interfaccia }}"
+          - name: "{{ item_interfaccia }}"
             mode: access
             access:
-              vlan: 10
-      loop:
-        - { interfaccia: "GigabitEthernet1/0/1" }
-        - { interfaccia: "GigabitEthernet1/0/2" }
-        - { interfaccia: "GigabitEthernet1/0/3" }
-        - { interfaccia: "GigabitEthernet1/0/4" }
-
-    - name: Salvo la configurazione
-      ansible.netcommon.cli_command:
-        command: write
-
-- name: Configuro il secondo banco sulla vlan 20
-  hosts: switchBanco2
-  gather_facts: no
-  tasks:
-    - name: Rendo le prime 4 porte access sulla vlan 20
-      cisco.ios.ios_l2_interfaces:
-        config:
-          - name: "{{ item.interfaccia }}"
-            mode: access
-            access:
-              vlan: 20
-      loop:
-        - { interfaccia: "GigabitEthernet1/0/1" }
-        - { interfaccia: "GigabitEthernet1/0/2" }
-        - { interfaccia: "GigabitEthernet1/0/3" }
-        - { interfaccia: "GigabitEthernet1/0/4" }
-
-    - name: Salvo la configurazione
-      ansible.netcommon.cli_command:
-        command: write
-
-- name: Configuro il terzo banco sulla vlan 30
-  hosts: switchBanco3
-  gather_facts: no
-  tasks:
-    - name: Rendo le prime 4 porte access sulla vlan 30
-      cisco.ios.ios_l2_interfaces:
-        config:
-          - name: "{{ item.interfaccia }}"
-            mode: access
-            access:
-              vlan: 30
-      loop:
-        - { interfaccia: "GigabitEthernet1/0/1" }
-        - { interfaccia: "GigabitEthernet1/0/2" }
-        - { interfaccia: "GigabitEthernet1/0/3" }
-        - { interfaccia: "GigabitEthernet1/0/4" }
-
-    - name: Salvo la configurazione
-      ansible.netcommon.cli_command:
-        command: write
-
-- name: Configuro il quarto banco sulla vlan 40
-  hosts: switchBanco4
-  gather_facts: no
-  tasks:
-    - name: Rendo le prime 4 porte access sulla vlan 40
-      cisco.ios.ios_l2_interfaces:
-        config:
-          - name: "{{ item.interfaccia }}"
-            mode: access
-            access:
-              vlan: 40
-      loop:
-        - { interfaccia: "GigabitEthernet0/1" }
-        - { interfaccia: "GigabitEthernet0/2" }
-        - { interfaccia: "GigabitEthernet0/3" }
-        - { interfaccia: "GigabitEthernet0/4" }
-
-    - name: Salvo la configurazione
-      ansible.netcommon.cli_command:
-        command: write
-
-- name: Configuro il quinto banco sulla vlan 50 
-  hosts: switchBanco5
-  gather_facts: no
-  tasks:
-    - name: Rendo le prime 4 porte access sulla vlan 50
-      cisco.ios.ios_l2_interfaces:
-        config:
-          - name: "{{ item.interfaccia }}"
-            mode: access
-            access:
-              vlan: 50
-      loop:
-        - { interfaccia: "GigabitEthernet1/0/1" }
-        - { interfaccia: "GigabitEthernet1/0/2" }
-        - { interfaccia: "GigabitEthernet1/0/3" }
-        - { interfaccia: "GigabitEthernet1/0/4" }
-
-    - name: Salvo la configurazione
-      ansible.netcommon.cli_command:
-        command: write
-
-- name: Configuro il sesto banco sulla vlan 60 
-  hosts: switchBanco6
-  gather_facts: no
-  tasks:
-    - name: Rendo le prime 4 porte access sulla vlan 60
-      cisco.ios.ios_l2_interfaces:
-        config:
-          - name: "{{ item.interfaccia }}"
-            mode: access
-            access:
-              vlan: 60
-      loop:
-        - { interfaccia: "GigabitEthernet0/1" }
-        - { interfaccia: "GigabitEthernet0/2" }
-        - { interfaccia: "GigabitEthernet0/3" }
-        - { interfaccia: "GigabitEthernet0/4" }
+              vlan: "{{ item_banco.vlan }}"
+      loop: "{{ item_banco.interfacce }}"
+      loop_control:
+        loop_var: item_interfaccia
+      when: inventory_hostname == item_banco.host
+      with_items: "{{ banchi }}"
+      loop_control:
+        loop_var: item_banco
 
     - name: Salvo la configurazione
       ansible.netcommon.cli_command:
